@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Simulador educativo de ahorro previsional AFP en Chile"
+    >
+
+    <title>Simulador AFP Chile</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header class="encabezado">
+        <div class="contenedor">
+
+            <p class="etiqueta">
+                Herramienta previsional educativa
+            </p>
+
+            <h1>Simulador AFP Chile</h1>
+
+            <p class="descripcion">
+                Proyecta tus cotizaciones, aportes del empleador,
+                beneficios previsionales y pensión estimada.
+            </p>
+
+        </div>
+    </header>
+
+    <main class="contenedor">
+
+        <section class="panel-formulario">
+
+            <div class="titulo-seccion">
+
+                <h2>Ingresa tus datos</h2>
+
+                <p>
+                    Completa la información para realizar una
+                    proyección expresada en pesos de hoy.
+                </p>
+
+            </div>
+
+            <form id="formularioSimulador">
+
+                <div class="grupo-campos">
+
+                    <div class="campo">
+
+                        <label for="sueldoImponible">
+                            Sueldo imponible mensual
+                        </label>
+
+                        <div class="campo-moneda">
+
+                            <span>$</span>
+
+                            <input
+                                type="text"
+                                id="sueldoImponible"
+                                inputmode="numeric"
+                                placeholder="Ejemplo: 1.000.000"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="saldoActual">
+                            Saldo actual en tu AFP
+                        </label>
+
+                        <div class="campo-moneda">
+
+                            <span>$</span>
+
+                            <input
+                                type="text"
+                                id="saldoActual"
+                                inputmode="numeric"
+                                placeholder="Ejemplo: 15.000.000"
+                                value="0"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="sexo">
+                            Sexo para el cálculo previsional
+                        </label>
+
+                        <select id="sexo" required>
+
+                            <option value="">
+                                Selecciona una opción
+                            </option>
+
+                            <option value="mujer">
+                                Mujer
+                            </option>
+
+                            <option value="hombre">
+                                Hombre
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Se utiliza para la edad legal y la
+                            compensación por expectativa de vida.
+                        </small>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="edadActual">
+                            Edad actual
+                        </label>
+
+                        <input
+                            type="number"
+                            id="edadActual"
+                            min="18"
+                            max="80"
+                            placeholder="Ejemplo: 35"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="edadJubilacion">
+                            Edad estimada de jubilación
+                        </label>
+
+                        <input
+                            type="number"
+                            id="edadJubilacion"
+                            min="40"
+                            max="90"
+                            placeholder="Ejemplo: 65"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="aniosCotizadosPrevios">
+                            Años cotizados aproximadamente hasta hoy
+                            <span>(opcional)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="aniosCotizadosPrevios"
+                            min="0"
+                            max="50"
+                            step="1"
+                            placeholder="Déjalo vacío si no lo sabes"
+                        >
+
+                        <small>
+                            Solo se utiliza para estimar el Beneficio
+                            por Años Cotizados. No es necesario para
+                            calcular tu saldo AFP.
+                        </small>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="afp">
+                            AFP actual
+                        </label>
+
+                        <select id="afp" required>
+
+                            <option value="">
+                                Selecciona una AFP
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="mesesCotizados">
+                            Meses que cotizas al año
+                        </label>
+
+                        <select id="mesesCotizados">
+
+                            <option value="12">12 meses</option>
+                            <option value="11">11 meses</option>
+                            <option value="10">10 meses</option>
+                            <option value="9">9 meses</option>
+                            <option value="8">8 meses</option>
+                            <option value="7">7 meses</option>
+                            <option value="6">6 meses</option>
+                            <option value="5">5 meses</option>
+                            <option value="4">4 meses</option>
+                            <option value="3">3 meses</option>
+                            <option value="2">2 meses</option>
+                            <option value="1">1 mes</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="crecimientoSueldo">
+                            Crecimiento real anual del sueldo
+                        </label>
+
+                        <input
+                            type="number"
+                            id="crecimientoSueldo"
+                            min="-5"
+                            max="10"
+                            step="0.1"
+                            value="0"
+                        >
+
+                        <small>
+                            Escribe 0 para mantener el mismo sueldo
+                            en pesos de hoy.
+                        </small>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="ahorroVoluntario">
+                            Ahorro voluntario mensual
+                        </label>
+
+                        <div class="campo-moneda">
+
+                            <span>$</span>
+
+                            <input
+                                type="text"
+                                id="ahorroVoluntario"
+                                inputmode="numeric"
+                                placeholder="APV o Cuenta 2"
+                                value="0"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="otrasPensiones">
+                            Otras pensiones mensuales
+                        </label>
+
+                        <div class="campo-moneda">
+
+                            <span>$</span>
+
+                            <input
+                                type="text"
+                                id="otrasPensiones"
+                                inputmode="numeric"
+                                placeholder="Sobrevivencia, IPS u otras"
+                                value="0"
+                            >
+
+                        </div>
+
+                        <small>
+                            Pueden modificar la pensión base utilizada
+                            para calcular la PGU.
+                        </small>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="beneficiarios">
+                            Beneficiarios de pensión de sobrevivencia
+                        </label>
+
+                        <select id="beneficiarios">
+
+                            <option value="ninguno">
+                                No tengo beneficiarios
+                            </option>
+
+                            <option value="conyuge">
+                                Cónyuge o conviviente con derecho
+                            </option>
+
+                            <option value="hijos">
+                                Hijos o hijas con derecho
+                            </option>
+
+                            <option value="ambos">
+                                Cónyuge e hijos con derecho
+                            </option>
+
+                        </select>
+
+                        <small>
+                            La existencia de beneficiarios puede
+                            reducir la pensión autofinanciada.
+                        </small>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="cumplePGU">
+                            ¿Estimas que cumples los requisitos de la PGU?
+                        </label>
+
+                        <select id="cumplePGU">
+
+                            <option value="no-se" selected>
+                                No estoy segura o seguro
+                            </option>
+
+                            <option value="si">
+                                Sí, estimo que los cumplo
+                            </option>
+
+                            <option value="no">
+                                No los cumplo
+                            </option>
+
+                        </select>
+
+                        <small>
+                            Si no conoces esta información, selecciona
+                            “No estoy segura o seguro”.
+                        </small>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="rentabilidad">
+                            Escenario de rentabilidad
+                        </label>
+
+                        <select id="rentabilidad">
+
+                            <option value="conservador">
+                                Conservador
+                            </option>
+
+                            <option value="esperado" selected>
+                                Esperado
+                            </option>
+
+                            <option value="optimista">
+                                Optimista
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="boton-calcular"
+                >
+                    Calcular proyección completa
+                </button>
+
+            </form>
+
+        </section>
+
+        <section
+            id="resultados"
+            class="seccion-resultados oculto"
+            aria-live="polite"
+        >
+
+            <div class="titulo-seccion">
+
+                <h2>Resultado de tu simulación</h2>
+
+                <p id="resumenSimulacion">
+                    Proyección expresada en pesos de hoy.
+                </p>
+
+            </div>
+
+            <div class="tarjetas-resultados">
+
+                <article class="tarjeta">
+
+                    <p>Aporte mensual obligatorio</p>
+
+                    <strong id="resultadoAporteMensual">
+                        $0
+                    </strong>
+
+                </article>
+
+                <article class="tarjeta">
+
+                    <p>Total aportado por la persona</p>
+
+                    <strong id="resultadoTotalAportado">
+                        $0
+                    </strong>
+
+                </article>
+
+                <article class="tarjeta">
+
+                    <p>Aporte acumulado del empleador</p>
+
+                    <strong id="resultadoAporteEmpleador">
+                        $0
+                    </strong>
+
+                </article>
+
+                <article class="tarjeta">
+
+                    <p>Comisiones AFP pagadas mientras trabaja</p>
+
+                    <strong id="resultadoComisionesPagadas">
+                        $0
+                    </strong>
+
+                </article>
+
+                <article class="tarjeta">
+
+                    <p>Rentabilidad estimada</p>
+
+                    <strong id="resultadoRentabilidad">
+                        $0
+                    </strong>
+
+                </article>
+
+                <article class="tarjeta">
+
+                    <p>Bono CRP acumulado estimado</p>
+
+                    <strong id="resultadoSaldoCRP">
+                        $0
+                    </strong>
+
+                </article>
+
+                <article class="tarjeta destacada">
+
+                    <p>Saldo proyectado en la AFP</p>
+
+                    <strong id="resultadoSaldoFinal">
+                        $0
+                    </strong>
+
+                </article>
+
+            </div>
+
+            <div class="resultado-pension">
+
+                <div>
+
+                    <p>
+                        Pensión mensual estimada antes de salud
+                    </p>
+
+                    <strong id="resultadoPension">
+                        $0
+                    </strong>
+
+                </div>
+
+                <span id="rangoPension">
+                    Rango AFP después de comisión: $0 a $0
+                </span>
+
+            </div>
+
+            <section class="detalle-pension">
+
+                <div class="titulo-detalle">
+
+                    <h3>Detalle mensual de la pensión</h3>
+
+                    <p>
+                        La pensión AFP, sus comisiones y los beneficios
+                        previsionales se muestran por separado.
+                    </p>
+
+                </div>
+
+                <div class="desglose-pension">
+
+                    <article class="tarjeta">
+
+                        <p>Pensión AFP antes de comisión</p>
+
+                        <strong id="resultadoPensionAFPBruta">
+                            $0
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Comisión AFP por pago de pensión</p>
+
+                        <strong id="resultadoComisionPensionAFP">
+                            $0
+                        </strong>
+
+                        <small id="textoComisionPensionAFP">
+                            Retiro Programado · Comisión actual
+                        </small>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Pensión AFP después de comisión</p>
+
+                        <strong id="resultadoPensionAFP">
+                            $0
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Pago mensual estimado CRP</p>
+
+                        <strong id="resultadoPensionCRP">
+                            $0
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Beneficio por Años Cotizados</p>
+
+                        <strong id="resultadoBAC">
+                            No calculado
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Compensación para mujeres</p>
+
+                        <strong id="resultadoCEV">
+                            $0
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>PGU estimada</p>
+
+                        <strong id="resultadoPGU">
+                            $0
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Otras pensiones declaradas</p>
+
+                        <strong id="resultadoOtrasPensiones">
+                            $0
+                        </strong>
+
+                    </article>
+
+                    <article class="tarjeta">
+
+                        <p>Descuento estimado de salud del 7%</p>
+
+                        <strong id="resultadoSalud">
+                            $0
+                        </strong>
+
+                    </article>
+
+                </div>
+
+                <div class="resultado-liquido">
+
+                    <div>
+
+                        <p>
+                            Pensión líquida descontando el 7% de salud
+                        </p>
+
+                        <strong id="resultadoPensionLiquida">
+                            $0
+                        </strong>
+
+                    </div>
+
+                    <span id="notaBeneficios">
+                        Resultado aproximado sujeto a validación
+                        del IPS y de la AFP.
+                    </span>
+
+                </div>
+
+                <div class="resultado-liquido">
+
+                    <div>
+
+                        <p>
+                            Pensión líquida con bonificación del 7% de salud
+                        </p>
+
+                        <strong id="resultadoPensionLiquidaBonificada">
+                            $0
+                        </strong>
+
+                    </div>
+
+                    <span>
+                        Esta alternativa solo aplica si el IPS confirma
+                        que la persona cumple los requisitos.
+                    </span>
+
+                </div>
+
+            </section>
+
+            <div class="contenedor-tabla">
+
+                <h3>Proyección por año</h3>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Año</th>
+                            <th>Edad</th>
+                            <th>Aportes personales</th>
+                            <th>Aporte empleador</th>
+                            <th>Rentabilidad</th>
+                            <th>Saldo AFP</th>
+                            <th>Saldo CRP</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaProyeccion">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <aside class="aviso">
+
+            <h2>Información importante</h2>
+
+            <p>
+                Esta herramienta entrega una simulación aproximada.
+                Los resultados no constituyen un cálculo oficial,
+                certificado, oferta de pensión ni confirmación de
+                acceso a beneficios estatales.
+            </p>
+
+            <p>
+                La comisión por pago de pensión se calcula suponiendo
+                la modalidad de Retiro Programado y utilizando la tasa
+                actual de la AFP como referencia.
+            </p>
+
+            <p>
+                La PGU, el Beneficio por Años Cotizados, la
+                compensación para mujeres y la bonificación de salud
+                están sujetos a requisitos y validaciones realizadas
+                por las instituciones correspondientes.
+            </p>
+
+        </aside>
+
+    </main>
+
+    <footer>
+
+        <p>
+            Simulador AFP Chile · Proyecto educativo
+        </p>
+
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
